@@ -14,18 +14,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome'),
+        title: const Text('ยินดีต้อนรับ'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Welcome Screen'),
+            Text('ยินดีต้อนรับ'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: const Text('Login'),
+              child: const Text('เข้าสู่ระบบ'),
             ),
           ],
         ),
