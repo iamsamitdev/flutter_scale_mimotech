@@ -115,6 +115,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  onboarding_intro_screen:
+    dependency: "direct main"
+    description:
+      name: onboarding_intro_screen
+      sha256: b84e15cc0747a1a8b2721c110f466c609dc3a4e5c1bf3f0c045922abd7c21bf9
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   path:
     dependency: transitive
     description:
@@ -186,3 +194,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.0 <4.0.0"
+  flutter: ">=1.17.0"
