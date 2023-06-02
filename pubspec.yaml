@@ -39,6 +39,15 @@ dependencies:
   # for create intro slider
   onboarding_intro_screen: ^0.0.8
 
+  # Network Connectivity
+  connectivity_plus: ^4.0.1
+
+  # for http request
+  http: ^1.0.0
+
+  # Shared Preferences
+  shared_preferences: ^2.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

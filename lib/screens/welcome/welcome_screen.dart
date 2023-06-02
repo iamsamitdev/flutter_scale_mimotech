@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:onboarding_intro_screen/onboarding_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -14,8 +15,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return OnBoardingScreen(
-      onSkip: () {
+      onSkip: () async {
         // debugPrint("On Skip Called....");
+        // Create shared preference object
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setInt('step', 1);
+
         // Naviate to Login Screen
         Navigator.pushReplacementNamed(context, '/login');
       },
@@ -55,7 +60,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setInt('step', 1);
                   Navigator.pushReplacementNamed(context, '/login');
                 },
                 child: Text(

@@ -1,6 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_scale/services/rest_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -75,14 +79,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width * 0.6,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () async {
                         // ตรวจสอบค่าจาก form
                         if(formKey.currentState!.validate()){
                           // ถ้าผ่าน ให้ทำการบันทึกค่า
                           formKey.currentState!.save();
-                          // แสดงค่าที่บันทึก
-                          print('Username: $_username');
-                          print('Password: $_password');
+
+                          // เรียกใช้งาน API Login
+                          var response = await CallAPI().loginAPI(
+                            {
+                              'username': _username,
+                              'password': _password
+                            }
+                          );
+
+                          var body = jsonDecode(response.body);
+                          // print(body);
+
+                          if(body['status'] == 'success'){
+
+                            // Create shared preference object
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                            // Save user data to shared preference
+                            prefs.setString('userID', body['data']['id']);
+                            prefs.setString('userName', body['data']['username']);
+                            prefs.setString('fullName', body['data']['fullname']);
+                            prefs.setString('imgProfile', body['data']['img_profile']);
+                            prefs.setInt('step', 2);
+
+                            // ถ้า login สำเร็จ ให้เปิดหน้า Dashboard
+                            Navigator.pushReplacementNamed(context, '/dashboard');
+                          }else{
+                            // ถ้า login ไม่สำเร็จ ให้แสดงข้อความ
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Center(child: Text(body['message'])),
+                                backgroundColor: Colors.red,
+                              )
+                            );
+                          }
+
                         }
                       },
                       child: Text('เข้าสู่ระบบ', style: TextStyle(fontSize: 20),),
