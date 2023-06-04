@@ -18,7 +18,8 @@ class AppRouter {
   static const String contact = '/contact';
 
   // Router Map
-  static Map<String, WidgetBuilder> routes = {
+  static get routes => <String, WidgetBuilder> {
+  // static Map<String, WidgetBuilder> routes = {
     welcome: (context) => const WelcomeScreen(),
     login: (context) => const LoginScreen(),
     dashboard: (context) => const DashboardScreen(),
