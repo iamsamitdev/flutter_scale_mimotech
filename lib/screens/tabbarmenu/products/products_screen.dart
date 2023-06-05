@@ -6,6 +6,8 @@ import 'package:flutter_scale/models/product_model.dart';
 import 'package:flutter_scale/screens/tabbarmenu/products/product_item.dart';
 import 'package:flutter_scale/services/rest_api.dart';
 
+var refreshKey = GlobalKey<RefreshIndicatorState>();
+
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
 
@@ -29,34 +31,45 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: _toggleView,
+          icon: Icon(_isGridView ? Icons.list_outlined : Icons.grid_view),
+        ),
         actions: [
           IconButton(
-              onPressed: _toggleView,
-              icon: Icon(_isGridView ? Icons.list : Icons.grid_view))
+            onPressed: () {
+              Navigator.pushNamed(context, '/addproduct');
+            },
+            icon: Icon(Icons.add),
+          ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {});
+      body: WillPopScope(
+        onWillPop: () async {
+          return false;
         },
-        child: FutureBuilder(
-          future: CallAPI().getAllProducts(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('มีข้อผิดพลาด โปรดลองใหม่อีกครั้ง'),
-              );
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              List<ProductModel> products = snapshot.data;
-              return _isGridView 
-                ? _gridView(products) 
-                : _listView(products);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+        child: RefreshIndicator(
+          key: refreshKey,
+          onRefresh: () async {
+            setState(() {});
           },
+          child: FutureBuilder(
+            future: CallAPI().getAllProducts(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('มีข้อผิดพลาด โปรดลองใหม่อีกครั้ง'),
+                );
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                List<ProductModel> products = snapshot.data;
+                return _isGridView ? _gridView(products) : _listView(products);
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -74,7 +87,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
             child: ProductItem(
               product: products[index],
               onTap: () {
-                logger.d('Item $index clicked');
+                // logger.d('Item $index clicked');
+                Navigator.pushNamed(
+                  context,
+                  '/productdetail',
+                  arguments: {
+                    'products': products[index].toJson(),
+                  },
+                );
               },
             ),
           ),
@@ -95,7 +115,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
             product: products[index],
             isGrid: true,
             onTap: () {
-              logger.d('Item $index clicked');
+              // logger.d('Item $index clicked');
+              Navigator.pushNamed(
+                context,
+                '/productdetail',
+                arguments: {
+                  'products': products[index].toJson(),
+                },
+              );
             },
           );
         });
