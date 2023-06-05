@@ -45,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   
   // ------- ส่วนของการโหลดสลับข้อมูล Bottom Navigation --------
   // สร้างตัวแปรเก็บ title ของ bottom navigation
-  String _title = 'Dashboard';
+  String _title = 'Home';
 
   // สร้างตัวแปรสำหรับเก็บ index ของ bottom navigation
   int _currentIndex = 0;
@@ -64,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _currentIndex = index;
       switch(index) {
-        case 0: _title = 'Dashboard'; break;
+        case 0: _title = 'Home'; break;
         case 1: _title = 'Report'; break;
         case 2: _title = 'Notification'; break;
         case 3: _title = 'Setting'; break;

@@ -3,11 +3,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scale/routers/app_router.dart';
 import 'package:flutter_scale/themes/styles.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var initURL;
 
+// Logger
+final logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 1,
+    colors: true,
+    printEmojis: true,
+    printTime: false,
+  ),
+);
+
+// Print logger
+void _printLogger() {
+  logger.d('Debug');
+  logger.e('Error');
+  logger.w('Warning');
+  logger.i('Info');
+  logger.v('Verbose');
+  logger.wtf('What a terrible failure');
+}
+
 void main() async {
+
+  // _printLogger();
 
   WidgetsFlutterBinding.ensureInitialized(); // ต้องเรียกใช้เพื่อให้ทำงานก่อน runApp
 
