@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_scale/provider/locale_provider.dart';
 import 'package:flutter_scale/themes/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -74,19 +76,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         ListTile(
           leading: Icon(Icons.person),
-          title: Text('Account'),
+          title: Text(AppLocalizations.of(context)!.menu_account,),
           trailing: Icon(Icons.arrow_forward_ios, size: 16,),
           onTap: (){},
         ),
         ListTile(
           leading: Icon(Icons.password),
-          title: Text('Change Password'),
+          title: Text(AppLocalizations.of(context)!.menu_changepass),
           trailing: Icon(Icons.arrow_forward_ios, size: 16,),
           onTap: (){},
         ),
         ListTile(
           leading: Icon(Icons.language),
-          title: Text('Change Language'),
+          title: Text(AppLocalizations.of(context)!.menu_changelang),
           trailing: Icon(Icons.arrow_forward_ios, size: 16,),
           onTap: (){
             // Create alert dialog select language
@@ -94,31 +96,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
               context: context, 
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Select Language'),
+                  title: Text(AppLocalizations.of(context)!.label_chooselang,),
                   content: SingleChildScrollView(
-                    child: ListBody(
-                      children: [
-                        InkWell(
-                          child: Text('English'),
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                        ),
-                        SizedBox(height: 10,),
-                        InkWell(
-                          child: Text('Thai'),
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                        ),
-                        SizedBox(height: 10,),
-                        InkWell(
-                          child: Text('Chinese'),
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
+                    child: Consumer<LocaleProvider>(
+                      builder: (context, provider, child) {
+                        return ListBody(
+                          children: [
+                            InkWell(
+                              child: Text('English'),
+                              onTap: (){
+                                Navigator.pop(context);
+                                provider.changeLocale(const Locale('en'));
+                              },
+                            ),
+                            SizedBox(height: 10,),
+                            InkWell(
+                              child: Text('Thai'),
+                              onTap: (){
+                                Navigator.pop(context);
+                                provider.changeLocale(const Locale('th'));
+                              },
+                            ),
+                            SizedBox(height: 10,),
+                            InkWell(
+                              child: Text('Chinese'),
+                              onTap: (){
+                                Navigator.pop(context);
+                                provider.changeLocale(const Locale('zh'));
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 );
@@ -128,13 +137,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ListTile(
           leading: Icon(Icons.settings),
-          title: Text('Settings'),
+          title: Text(AppLocalizations.of(context)!.menu_setting,),
           trailing: Icon(Icons.arrow_forward_ios, size: 16,),
           onTap: (){},
         ),
         ListTile(
           leading: Icon(Icons.exit_to_app),
-          title: Text('Logout'),
+          title: Text(AppLocalizations.of(context)!.menu_logout),
           trailing: Icon(Icons.arrow_forward_ios, size: 16,),
           onTap: (){},
         ),

@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_scale/provider/locale_provider.dart';
 import 'package:flutter_scale/routers/app_router.dart';
 import 'package:flutter_scale/themes/styles.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var initURL;
+var locale;
 
 // Logger
 final logger = Logger(
@@ -43,6 +46,10 @@ void main() async {
     initURL = '/dashboard';
   }
 
+  // Set default locale
+  String? languageCode = prefs.getString('languageCode');
+  locale = Locale(languageCode ?? 'en');
+
   runApp(const MyApp());
 }
 
@@ -51,13 +58,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      initialRoute: initURL,
-      routes: AppRouter.routes,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LocaleProvider(locale),
+        ),
+      ],
+      child: Consumer<LocaleProvider>(
+        builder: (context, locale, child) {
+          return MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: locale.locale,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            initialRoute: initURL,
+            routes: AppRouter.routes,
+          );
+        },
+      ),
     );
   }
 }

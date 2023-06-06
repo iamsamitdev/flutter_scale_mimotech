@@ -9,6 +9,7 @@ import 'package:flutter_scale/screens/bottomnavmenu/setting/setting_screen.dart'
 import 'package:flutter_scale/themes/colors.dart';
 import 'package:flutter_scale/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -45,7 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   
   // ------- ส่วนของการโหลดสลับข้อมูล Bottom Navigation --------
   // สร้างตัวแปรเก็บ title ของ bottom navigation
-  String _title = 'Home';
+  String _title = 'Flutter Scale';
 
   // สร้างตัวแปรสำหรับเก็บ index ของ bottom navigation
   int _currentIndex = 0;
@@ -64,12 +65,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _currentIndex = index;
       switch(index) {
-        case 0: _title = 'Home'; break;
-        case 1: _title = 'Report'; break;
-        case 2: _title = 'Notification'; break;
-        case 3: _title = 'Setting'; break;
-        case 4: _title = 'Profile'; break;
-        default: _title = 'Dashboard'; break;
+        case 0: _title = AppLocalizations.of(context)!.menu_home; break;
+        case 1: _title = AppLocalizations.of(context)!.menu_report; break;
+        case 2: _title = AppLocalizations.of(context)!.menu_notification; break;
+        case 3: _title = AppLocalizations.of(context)!.menu_setting; break;
+        case 4: _title = AppLocalizations.of(context)!.menu_profile; break;
+        default: _title = AppLocalizations.of(context)!.menu_home; break;
       }
     });
   }
@@ -95,6 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_title),
@@ -130,7 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     leading: Icon(Icons.info),
                     visualDensity: VisualDensity(horizontal: -4, vertical: 0),
                     title: Text(
-                      'Info',
+                      AppLocalizations.of(context)!.menu_info,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                     ),
                     onTap: () {
@@ -144,7 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     leading: Icon(Icons.person),
                     visualDensity: VisualDensity(horizontal: -4, vertical: 0),
                     title: Text(
-                      'About',
+                      AppLocalizations.of(context)!.menu_about,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                     ),
                     onTap: () {
@@ -158,7 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     leading: Icon(Icons.email),
                     visualDensity: VisualDensity(horizontal: -4, vertical: 0),
                     title: Text(
-                      'Contact',
+                      AppLocalizations.of(context)!.menu_contact,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                     ),
                     onTap: () {
@@ -178,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     leading: Icon(Icons.logout_outlined),
                     visualDensity: VisualDensity(horizontal: -4, vertical: 0),
                     title: Text(
-                      'Logout',
+                      AppLocalizations.of(context)!.menu_logout,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                     ),
                     onTap: logout,
@@ -197,23 +199,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            label: AppLocalizations.of(context)!.menu_home,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.show_chart_outlined),
-            label: 'Report',
+            label: AppLocalizations.of(context)!.menu_report,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications_outlined),
-            label: 'Notification',
+            label: AppLocalizations.of(context)!.menu_notification,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
-            label: 'Setting',
+            label: AppLocalizations.of(context)!.menu_setting,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
-            label: 'Profile',
+            label: AppLocalizations.of(context)!.menu_profile,
           ),
         ]
       ),
