@@ -5,6 +5,7 @@ import 'package:flutter_scale/routers/app_router.dart';
 import 'package:flutter_scale/themes/styles.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var initURL;
 
@@ -30,8 +31,6 @@ void _printLogger() {
 
 void main() async {
 
-  // _printLogger();
-
   WidgetsFlutterBinding.ensureInitialized(); // ต้องเรียกใช้เพื่อให้ทำงานก่อน runApp
 
   // Create shared preferences instance
@@ -53,6 +52,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       initialRoute: initURL,

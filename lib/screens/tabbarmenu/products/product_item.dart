@@ -27,6 +27,12 @@ class ProductItem extends StatelessWidget {
       onPressed: onTap, 
       child: LayoutBuilder(
         builder: (context, constraint) => Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
           child: Column(
             children: [
               _buildImage(constraint.maxHeight),
@@ -76,6 +82,10 @@ class ProductItem extends StatelessWidget {
       imageUrl,
       width: double.infinity,
       fit: BoxFit.cover,
+      errorBuilder: (BuildContext context, Object exception,
+          StackTrace? stackTrace) {
+         return ImageNotFound();
+       },
     );
   }
 

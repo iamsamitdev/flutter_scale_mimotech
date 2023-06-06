@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: sort_child_properties_last, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 
@@ -36,7 +36,7 @@ Widget CustomButton (
 // Custom Text Field
 Widget CustomTextField(
   BuildContext context,
-  String hintText,
+  String labelText,
   Function onValidate,
   Function onSaved,
   {
@@ -56,8 +56,9 @@ Widget CustomTextField(
     onSaved: (value) => onSaved(value.toString().trim()),
     keyboardType: keyboardType,
     maxLines: maxLines,
+    textInputAction: TextInputAction.none,
     decoration: InputDecoration(
-      hintText: hintText,
+      labelText: labelText,
       prefixIcon: icon,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
