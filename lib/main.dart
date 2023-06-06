@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_scale/provider/locale_provider.dart';
+import 'package:flutter_scale/provider/theme_provider.dart';
 import 'package:flutter_scale/routers/app_router.dart';
 import 'package:flutter_scale/themes/styles.dart';
 import 'package:logger/logger.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var initURL;
 var locale;
+ThemeData? themeData;
 
 // Logger
 final logger = Logger(
@@ -50,6 +52,10 @@ void main() async {
   String? languageCode = prefs.getString('languageCode');
   locale = Locale(languageCode ?? 'en');
 
+  // Set default theme
+  bool? isDark = prefs.getBool('isDark');
+  themeData = isDark == true && isDark != null ? AppTheme.darkTheme : AppTheme.lightTheme;
+
   runApp(const MyApp());
 }
 
@@ -63,15 +69,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => LocaleProvider(locale),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(themeData!),
+        ),
       ],
-      child: Consumer<LocaleProvider>(
-        builder: (context, locale, child) {
+      child: Consumer2<LocaleProvider, ThemeProvider>(
+        builder: (context, locale, theme, child) {
           return MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: locale.locale,
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.lightTheme,
+            theme: theme.getTheme(),
             initialRoute: initURL,
             routes: AppRouter.routes,
           );
